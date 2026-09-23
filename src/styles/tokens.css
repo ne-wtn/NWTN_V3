@@ -1,0 +1,45 @@
+/* Design tokens. Every colour, font and size on the site comes from here. */
+:root {
+  /* Brand blue scale, built from #004B87 */
+  --blue-950: #001A30;
+  --blue-800: #00335C;
+  --blue-700: #004B87;
+  --blue-500: #2F74B5;
+  --blue-300: #8DB4DC;
+  --blue-100: #DCE8F4;
+  --blue-50:  #F0F5FA;
+
+  /* Neutrals */
+  --ink:   #0E0F11;
+  --ink-2: #34373D;
+  --grey:  #5E636B;
+  --rule:  #D9DCE0;
+  --paper: #FFFFFF;
+
+  /* Band backgrounds */
+  --sky:  #CFE2F3;
+  --sand: #EFE8DC;
+  --mist: #E6ECF2;
+
+  /* Form */
+  --hint:  #3F6690;
+  --error: #B42318;
+
+  /* Type */
+  --font:   'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --fs-display: clamp(2.6rem, 8vw, 8.2rem);
+  --fs-h1:      clamp(2.4rem, 6.2vw, 6.2rem);
+  --fs-h2:      clamp(2.1rem, 4.8vw, 4.7rem);
+  --fs-h3:      clamp(1.35rem, 1.9vw, 1.8rem);
+  --fs-lead:    clamp(17px, 1.4vw, 21px);
+  --fs-body:    clamp(16px, 1.2vw, 18px);
+
+  /* Layout */
+  --gutter:   clamp(16px, 4vw, 56px);
+  --max:      1520px;
+  --bleed:    calc(var(--gutter) + max(0px, (100vw - var(--max)) / 2));
+  --band-pad: clamp(64px, 9vw, 128px);
+  --radius:   8px;
+  --nav-h:    68px;
+}

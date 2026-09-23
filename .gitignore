@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-artifact/
+.vite/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+emails/preview/
+.dev.vars
+.wrangler/

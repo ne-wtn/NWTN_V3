@@ -1,0 +1,23 @@
+# Secret settings for the /api/brief function when testing locally with
+# `npm run preview:cf`. Copy to .dev.vars (never committed).
+# On Cloudflare Pages, add the same names under Settings → Variables and secrets,
+# using "Encrypt" for the keys.
+
+# emailjs (send through your Gmail) | resend | log (print instead of sending)
+MAIL_PROVIDER=log
+
+# Where brief notifications go. Defaults to the email in src/content/site.js.
+NOTIFY_TO=nfxmotion@gmail.com
+
+# Turnstile secret. This test value always passes; use your real one in production.
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+
+# EmailJS (Account → API keys; Email Services; Email Templates)
+EMAILJS_SERVICE_ID=
+EMAILJS_TEMPLATE_ID=
+EMAILJS_PUBLIC_KEY=
+EMAILJS_PRIVATE_KEY=
+
+# Resend, only if MAIL_PROVIDER=resend
+# RESEND_API_KEY=
+# MAIL_FROM=hello@newtnfx.com
