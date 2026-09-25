@@ -1,9 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import { asset } from '../lib/util'
 import { useAutoplay, setSound, isAudible, onSoundChange } from '../lib/video'
+import InlineModel from './InlineModel'
+
+// Films only do what the site tells them: no download button, picture-in-picture,
+// casting or dragging. (The right-click menu is blocked in Layout.)
+const LOCKED_VIDEO = {
+  controlsList: 'nodownload nofullscreen noremoteplayback noplaybackrate',
+  disablePictureInPicture: true,
+  disableRemotePlayback: true,
+  draggable: false,
+}
 
 // One component for every image, film and placeholder on the site.
-//   media = { type: 'video', src, poster, start } | { type: 'image', src, alt } | null
+//   media = { type: 'video', src, poster, start } | { type: 'image', src, alt, width, height } | null
+//   An image's width and height (its pixel size) let the page save its space before it loads.
 // null shows a placeholder frame with `placeholder` written in it.
 export default function Media({ media, placeholder = 'Image to come', className = '', ratio, autoplay = true, videoRef }) {
   const own = useRef(null)
@@ -22,13 +33,13 @@ export default function Media({ media, placeholder = 'Image to come', className 
     const src = asset(media.src) + (media.start ? `#t=${media.start}` : '')
     return (
       <div className={`media ${className}`} style={style}>
-        <video ref={ref} src={src} poster={asset(media.poster)} muted loop playsInline preload="none" aria-label={media.alt} />
+        <video ref={ref} src={src} poster={asset(media.poster)} muted loop playsInline preload="none" aria-label={media.alt} {...LOCKED_VIDEO} />
       </div>
     )
   }
   return (
     <div className={`media ${className}`} style={style}>
-      <img src={asset(media.src)} alt={media.alt || ''} loading="lazy" decoding="async" />
+      <img src={asset(media.src)} alt={media.alt || ''} width={media.width} height={media.height} loading="lazy" decoding="async" draggable={false} />
     </div>
   )
 }
@@ -50,12 +61,13 @@ export function SoundToggle({ videoRef }) {
   )
 }
 
-// Small media set inside a line of text (the home headline).
+// Small media set inside a line of text (the home headline): a video, an image or a 3D model.
 export function InlineMedia({ item }) {
   const ref = useRef(null)
   useAutoplay(ref, item.type === 'video')
+  if (item.type === 'model') return <InlineModel item={item} />
   if (item.type === 'video') {
-    return <video ref={ref} className="inline-media" src={asset(item.src)} muted loop playsInline preload="auto" aria-label={item.label} />
+    return <video ref={ref} className="inline-media" src={asset(item.src)} muted loop playsInline preload="auto" aria-label={item.label} {...LOCKED_VIDEO} />
   }
-  return <img className="inline-media" src={asset(item.src)} alt={item.label || ''} />
+  return <img className="inline-media" src={asset(item.src)} alt={item.label || ''} draggable={false} />
 }

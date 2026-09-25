@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { contact } from '../content/contact'
 import { site } from '../content/site'
-import { fill, listSentence, prefersReducedMotion } from '../lib/util'
+import { fill, prefersReducedMotion } from '../lib/util'
+import { useKeepFieldVisible } from '../lib/keyboard'
 import { Blank, Choice, Notes } from './Blanks'
 import BriefNode from './BriefNode'
 import Turnstile, { SITE_KEY } from './Turnstile'
@@ -36,6 +37,8 @@ export default function BriefLetter() {
   const [tokenReset, setTokenReset] = useState(0)
   const rewindTimers = useRef([])
   const trap = useRef(null)
+  const form = useRef(null)
+  useKeepFieldVisible(form)
 
   useEffect(() => { if (status !== 'sent') write(DRAFT, values) }, [values, status])
 
@@ -125,7 +128,7 @@ export default function BriefLetter() {
   }
 
   return (
-    <form className={`graph${status === 'sending' ? ' is-sending' : ''}`} onSubmit={submit} noValidate>
+    <form ref={form} className={`graph${status === 'sending' ? ' is-sending' : ''}`} onSubmit={submit} noValidate>
       {/* Spam trap: hidden from people, filled in by bots. */}
       <input ref={trap} className="trap" type="text" name="company_site" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <div className="letter">
@@ -165,7 +168,7 @@ export default function BriefLetter() {
 
             {(missing.length > 0 || invalid.length > 0) && (
               <div className="brief-errors" role="alert">
-                {missing.length > 0 && <p>{contact.missing} {listSentence(missing)}.</p>}
+                {missing.length > 0 && <p>{contact.missing}</p>}
                 {invalid.map(k => <p key={k}>{contact.invalid[k]}</p>)}
               </div>
             )}

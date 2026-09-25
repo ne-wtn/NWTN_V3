@@ -63,6 +63,9 @@
   transform: translateY(-0.2em) rotate(45deg);
 }
 .blank--choice[aria-expanded='true']::after { transform: translateY(0.02em) rotate(-135deg); }
+.blank--choice { transition: opacity 0.12s; }
+.blank--choice:active { opacity: 0.6; }
+.choice-list li:active { background: var(--sky); }
 .choice-list {
   position: absolute;
   top: calc(100% + 8px);
@@ -160,6 +163,8 @@ button.brief-count { padding: 0; background: none; border: 0; font: inherit; fon
 }
 .consent input::before { content: ''; width: 9px; height: 5px; border-left: 2px solid var(--blue-700); border-bottom: 2px solid var(--blue-700); transform: translateY(-1px) rotate(-45deg); opacity: 0; }
 .consent input:checked { background: #fff; }
+.consent input { transition: transform 0.12s ease-out, background-color 0.15s; }
+.consent:active input { transform: scale(0.9); }
 .consent input:checked::before { opacity: 1; }
 .consent.is-invalid input { border-color: #FFB4AB; }
 .brief-errors { font-size: 15px; line-height: 1.5; color: #FFD2CC; }

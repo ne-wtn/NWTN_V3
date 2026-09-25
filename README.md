@@ -47,6 +47,27 @@ Keep films web-sized: 1280px wide, H.264, around 1–6 MB. `start` skips slow fa
 
 Copy an entry in `home.js` → `bands`. `tone` is `sky`, `sand`, `deep`, `mist` or `white`. `layout` is `split`, `split-reverse` or `wide`.
 
+### Ribbons
+
+On the home page, smooth ribbons draw themselves in behind some sections as you scroll. They stay fixed in place; ribbons you've already scrolled past are simply shown drawn, so nothing lags behind. Each one is a named route in `src/lib/ribbons.js` (with a desktop and a phone version), switched on in the content files:
+
+| Where | Setting |
+|---|---|
+| Home bands | `home.js` → a band's `ribbon` (e.g. `'weave'`) |
+| Home closing section | `home.js` → `close.ribbon` |
+
+The Sonic Vision band has a playing sound wave above its paragraph instead (`soundwave` in `home.js`; the look is in `src/lib/soundwave.js`).
+
+To make it move exactly like a real song (no audio is kept or played, only its levels):
+
+```
+python tools/levels.py path/to/song.mp3 public/media/levels/song.lvl
+```
+
+then set `soundwave: { levels: 'media/levels/song.lvl', start: 0 }` (`start` shifts where the song begins, in seconds). The song runs from the moment the site loads, so the bars show wherever it has got to when a visitor scrolls down, and it loops. `soundwave: true` uses a built-in rhythm instead. The tool needs Python with numpy and ffmpeg (see the top of `tools/levels.py`).
+
+Delete a setting to turn that ribbon off. On dark sections the colours switch to a darker set automatically so white text stays readable. Anchors ending in a selector (like `['.btn', 0.12, 0.5]`) make a ribbon finish exactly on that element.
+
 ### The contact form
 
 The brief is a letter with blanks. As it's filled in, the "Your brief" card beside it fills in too. Holding "Your brief" clears everything (with Undo).

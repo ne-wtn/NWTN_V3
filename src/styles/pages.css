@@ -1,10 +1,56 @@
 /* ---------- Home ---------- */
-.hero { padding-top: clamp(40px, 6vw, 96px); }
+/* The hero: the film fills the first screen, the words sit over a dark fade at the bottom.
+   --edge lines the caption up with the page's text column, even on very wide screens. */
+.hero { --edge: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter))); position: relative; isolation: isolate; color: #fff; }
+.hero-inner {
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block: 72px clamp(28px, 5vw, 64px);
+}
 .hero h1 { font-size: var(--fs-display); line-height: 0.98; letter-spacing: -0.048em; }
-.hero-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 48px; flex-wrap: wrap; margin-top: 34px; }
-.hero-intro p { font-size: var(--fs-lead); line-height: 1.45; max-width: 42ch; color: var(--ink-2); }
-.hero-film { margin-top: clamp(40px, 5vw, 72px); }
-.hero-film .media { border-radius: var(--radius); }
+
+/* The headline's colour flows slowly and constantly: white and the brand's pale blues,
+   with a periwinkle, a soft purple and a hint of magenta drifting through. The gradient
+   repeats seamlessly, so the loop never shows a seam. */
+.hero h1 {
+  background-image: linear-gradient(100deg,
+    #FFFFFF 0%, #DCE8F4 10%, #8DB4DC 22%, #9EAAF4 34%, #C3A9F0 44%, #E7A6DA 50%,
+    #C3A9F0 56%, #9EAAF4 66%, #8DB4DC 78%, #DCE8F4 90%, #FFFFFF 100%);
+  background-size: 200% 100%;
+  background-repeat: repeat-x;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: hero-flow 14s linear infinite;
+}
+@keyframes hero-flow { to { background-position: 200% 0; } }
+@media (prefers-reduced-motion: reduce) { .hero h1 { animation: none; } }
+
+/* The small cards inside the headline. */
+.hero .inline-media { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16); }
+/* 3D models: no card, and the canvas reaches a little past the slot so the object
+   can float into the space around the words. */
+.hero .inline-model { position: relative; width: 1.1em; background: none; box-shadow: none; overflow: visible; }
+.inline-model canvas { position: absolute; top: -0.24em; left: -0.2em; width: calc(100% + 0.4em); height: calc(100% + 0.48em); pointer-events: none; }
+.hero-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 48px; flex-wrap: wrap; margin-top: clamp(22px, 2.5vw, 34px); }
+.hero-intro p { font-size: var(--fs-lead); line-height: 1.45; max-width: 42ch; color: rgba(255, 255, 255, 0.88); }
+.hero-film { position: absolute; inset: 0; z-index: -1; margin: 0; }
+.hero-film .media { height: 100%; aspect-ratio: auto; border-radius: 0; }
+.hero-film::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(0, 18, 36, 0.6) 0%, rgba(0, 18, 36, 0) 18%, rgba(0, 18, 36, 0.35) 40%, rgba(0, 18, 36, 0.9) 68%, rgba(0, 18, 36, 0.94) 100%),
+    rgba(0, 18, 36, 0.28);
+}
+.hero-film figcaption { position: absolute; top: 16px; left: var(--edge); right: var(--edge); z-index: 1; margin: 0; color: rgba(255, 255, 255, 0.82); }
+.hero .caption strong, .hero .caption .link-button { color: #fff; }
+@media (max-width: 700px) { .hero h1 { font-size: clamp(2.9rem, 12.4vw, 4.2rem); } }
 
 .clients { padding-block: clamp(64px, 8vw, 120px); }
 .clients p { font-size: clamp(24px, 2.8vw, 40px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.18; max-width: 30ch; }

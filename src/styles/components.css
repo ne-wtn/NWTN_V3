@@ -106,3 +106,14 @@
 @media (max-width: 700px) {
   .grid--2, .grid--3 { grid-template-columns: 1fr; }
 }
+
+/* ---------- Sound wave (components/SoundWave.jsx) ---------- */
+.soundwave { width: 100%; max-width: 26rem; height: clamp(64px, 8vw, 120px); margin-bottom: clamp(20px, 2.4vw, 32px); }
+.band-wide .soundwave { margin-top: 8px; }
+.soundwave-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* ---------- Ribbons (lib/ribbons.js) ---------- */
+/* The ribbon spans the full window width behind the section; everything in the section sits on top. */
+.has-ribbon { position: relative; isolation: isolate; overflow-x: visible; overflow-y: clip; }
+.has-ribbon > :not(.ribbons) { position: relative; z-index: 1; }
+.ribbons { position: absolute; top: 0; left: calc(50% - 50vw); z-index: 0; width: 100vw; height: 100%; pointer-events: none; overflow: visible; shape-rendering: geometricPrecision; }

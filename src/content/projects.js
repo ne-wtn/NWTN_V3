@@ -67,7 +67,7 @@ export const projects = [
       { t: 16.1, label: 'Any time, anywhere', thumb: 'media/chapters/gemini-05.jpg' },
     ],
     stills: [
-      { src: 'media/process/gemini-premiere.jpg', alt: 'Premiere Pro timeline for the Gemini film, with six audio tracks under one video track', caption: 'The edit in Premiere Pro. Six tracks of ambience, shimmer and interface clicks under 22 seconds of picture.' },
+      { src: 'media/process/gemini-premiere.jpg', width: 1800, height: 962, alt: 'Premiere Pro timeline for the Gemini film, with six audio tracks under one video track', caption: 'The edit in Premiere Pro. Six tracks of ambience, shimmer and interface clicks under 22 seconds of picture.' },
     ],
   },
   {
@@ -99,8 +99,8 @@ export const projects = [
       { t: 47.9, label: 'Sign-off', thumb: 'media/chapters/ig-06.jpg' },
     ],
     stills: [
-      { src: 'media/process/social-ui-after-effects.jpg', alt: 'After Effects composition with more than 340 layers', caption: 'The main comp in After Effects. Over 340 layers, most of them nulls and text.' },
-      { src: 'media/process/social-ui-premiere.jpg', alt: 'Premiere Pro timeline with the vertical cut and sound design', caption: 'The vertical cut in Premiere Pro, with the button and select sounds laid in by hand.' },
+      { src: 'media/process/social-ui-after-effects.jpg', width: 1800, height: 977, alt: 'After Effects composition with more than 340 layers', caption: 'The main comp in After Effects. Over 340 layers, most of them nulls and text.' },
+      { src: 'media/process/social-ui-premiere.jpg', width: 1800, height: 965, alt: 'Premiere Pro timeline with the vertical cut and sound design', caption: 'The vertical cut in Premiere Pro, with the button and select sounds laid in by hand.' },
     ],
   },
 

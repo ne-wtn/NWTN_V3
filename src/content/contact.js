@@ -95,7 +95,7 @@ export const contact = {
     and: 'and',
     terms: 'Terms of Service',
   },
-  missing: 'A few blanks are still empty:',
+  missing: 'Please fill up all required blanks',
   invalid: {
     email: 'That email doesn’t look quite right.',
     website: 'That website doesn’t look quite right.',

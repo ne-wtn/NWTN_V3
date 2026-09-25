@@ -94,7 +94,10 @@ export function Choice({ id, field, options, value, onChange, invalid }) {
     l.style.left = '0px'
     const overflow = l.getBoundingClientRect().right - (document.documentElement.clientWidth - 12)
     if (overflow > 0) l.style.left = `${-overflow}px`
-    l.focus()
+    l.focus({ preventScroll: true })
+    // If the list opens below the bottom of the screen, bring it into view.
+    const below = l.getBoundingClientRect().bottom - (window.visualViewport?.height ?? innerHeight) + 16
+    if (below > 0) window.scrollBy({ top: below, behavior: 'smooth' })
   }, [open])
 
   const onListKey = e => {

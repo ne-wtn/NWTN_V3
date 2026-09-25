@@ -65,7 +65,7 @@ export const site = {
         { label: 'Terms', to: '/terms' },
       ] },
     ],
-    copyright: '© 2026 Newton Diodory. Built from scratch, straight vision.',
-    colophon: 'Set in Inter Tight. Designed and built by hand, not from a template.',
+    copyright: '© 2026 Newton Diodory',
+    rights: 'All rights reserved',
   },
 }

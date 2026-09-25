@@ -37,7 +37,7 @@ export default function Footer() {
           </div>
           <div className="footer-fine">
             <span>{site.footer.copyright}</span>
-            <span>{site.footer.colophon}</span>
+            <span>{site.footer.rights}</span>
           </div>
         </div>
       </footer>

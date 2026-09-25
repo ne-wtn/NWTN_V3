@@ -74,7 +74,7 @@ function ProjectBody({ project }) {
               {project.chapters.map((c, i) => (
                 <li key={c.t}>
                   <button type="button" onClick={() => seek(c.t)} aria-current={i === active ? 'true' : undefined}>
-                    <img src={asset(c.thumb)} alt="" loading="lazy" />
+                    <img src={asset(c.thumb)} alt="" loading="lazy" draggable={false} />
                     <span className="chapter-time">{timecode(c.t)}</span>
                     <span className="chapter-label">{c.label}</span>
                   </button>

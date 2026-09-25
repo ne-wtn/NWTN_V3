@@ -4,7 +4,7 @@ export const about = {
   label: 'About',
   title: 'My brand was built on a single obsession.',
   intro: 'What started with a laptop and pure will has grown into a full-pipeline studio for visual storytelling and animation. No shortcuts, no luck.',
-  media: { type: 'image', src: 'media/process/storyboard.jpg', alt: 'Sixteen-frame storyboard in Figma' },
+  media: { type: 'image', src: 'media/process/storyboard.jpg', width: 1600, height: 900, alt: 'Sixteen-frame storyboard in Figma' },
   caption: 'Where every project starts: the storyboard.',
 
   // `id` makes each section linkable, e.g. /about#services
