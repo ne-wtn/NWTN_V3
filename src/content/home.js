@@ -87,8 +87,8 @@ export const home = {
 
   work: {
     title: 'Selected work',
-    slugs: ['grab-malaysia', 'google-gemini', 'social-ui-animation'],
-    link: { label: 'All projects', to: '/projects' },
+    slugs: ['grab-malaysia', 'google-gemini', 'beyond-media-intro'],
+    link: { label: 'All work', to: '/projects' },
   },
 
   close: {

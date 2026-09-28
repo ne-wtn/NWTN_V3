@@ -1,18 +1,16 @@
-// Copy for the Projects page, project pages and the 404 page.
+// Copy for the Work page, project pages and the 404 page.
+// The category names and their lines are in projects.js.
 
 export const projectsPage = {
-  label: 'Projects',
-  title: 'My favourite work from 2026.',
-  sub: 'Films, launches and edits, each one made start to finish by me. {spots} spots open in {month}.',
-  inEdit: {
-    title: 'In the edit',
-    sub: 'Films for these are on their way.',
-  },
+  more: 'More edits on Instagram', // the last tile on the video editing page
+  caseStudy: 'Read the case study',
+  play: 'Play {name}', // for screen readers, on films that open in the player
+  close: 'Close',
 }
 
 export const projectPage = {
-  back: 'All projects',
-  meta: { client: 'Client', discipline: 'Work', year: 'Year', length: 'Length' },
+  back: 'All work',
+  meta: { client: 'Client', discipline: 'Work', year: 'Year' },
   chapters: 'Chapters',
   process: 'Process',
   tools: 'Tools',

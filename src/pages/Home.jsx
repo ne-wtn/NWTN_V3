@@ -1,11 +1,12 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { home } from '../content/home'
-import { findProject, filmOf } from '../content/projects'
+import { findProject, filmOf, linkTo } from '../content/projects'
 import { fill, listSentence, usePageTitle } from '../lib/util'
 import Media, { InlineMedia, SoundToggle } from '../components/Media'
 import Band from '../components/Band'
 import ProjectCard from '../components/ProjectCard'
+import FilmPlayer from '../components/FilmPlayer'
 import SmartLink from '../components/SmartLink'
 import { useRibbon, ribbonClass } from '../lib/useRibbon'
 
@@ -15,6 +16,7 @@ export default function Home() {
   const heroProject = findProject(hero.film)
   const heroVideo = useRef(null)
   const closer = useRef(null)
+  const [playing, setPlaying] = useState(null)
   useRibbon(closer, close.ribbon)
 
   return (
@@ -32,9 +34,9 @@ export default function Home() {
             <SmartLink className="btn btn--lg btn--light" link={hero.cta} />
           </div>
           <figure className="hero-film">
-            <Media media={filmOf(heroProject)} videoRef={heroVideo} placeholder="Showreel to come" />
+            <Media media={filmOf(heroProject)} videoRef={heroVideo} placeholder="Showreel to come" persist />
             <figcaption className="caption">
-              <span><Link to={`/projects/${heroProject.slug}`} viewTransition><strong>{heroProject.name}</strong></Link>, {hero.caption}</span>
+              <span><Link {...linkTo(heroProject)} viewTransition><strong>{heroProject.name}</strong></Link>, {hero.caption}</span>
               <SoundToggle videoRef={heroVideo} />
             </figcaption>
           </figure>
@@ -53,7 +55,7 @@ export default function Home() {
           <SmartLink className="u" link={work.link} />
         </div>
         <div className="grid grid--3">
-          {work.slugs.map(findProject).filter(Boolean).map(p => <ProjectCard key={p.slug} project={p} />)}
+          {work.slugs.map(findProject).filter(Boolean).map(p => <ProjectCard key={p.slug} project={p} onPlay={setPlaying} />)}
         </div>
       </section>
 
@@ -64,6 +66,8 @@ export default function Home() {
           <SmartLink className="btn btn--lg" link={close.cta} />
         </div>
       </section>
+
+      <FilmPlayer project={playing} onClose={() => setPlaying(null)} />
 
     </>
   )

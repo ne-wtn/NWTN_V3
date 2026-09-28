@@ -1,9 +1,4 @@
 // Ribbons that draw themselves across a section as it scrolls into view, always
-// behind the section's text and images. They stay fixed in place: scrolling only
-// draws them in (and back out when you scroll up).
-// Each ribbon is a long, smooth curve guided by a few anchor points. Its bends are
-// kept much wider than the ribbon itself, so its edges stay clean. Scrolling back up
-// rewinds the drawing.
 
 // Colours, all from the site's palette. On dark sections, 'brand' and 'soft' switch
 // to 'dusk' automatically, so white text on top stays readable.
@@ -14,13 +9,6 @@ const PAINTS = {
 }
 
 // Routes: one ribbon each, with a layout for wide screens and one for phones (tall).
-//   anchors  [x, y] as fractions of the section (x across the full window width, y down
-//            the section), or ['selector', x, y] as fractions of an element inside it
-//   width    × the base width
-//   paint    'brand' | 'soft' | 'dusk'
-//   grad     [x1, y1, x2, y2] where the paint runs from and to (fractions of the section);
-//            by default it runs from the ribbon's first anchor to its last
-//   draw     [start, end] share of the scroll over which it draws
 const ROUTES = {
   // Home, storyboard band: up behind the text, a loop behind the heading, away behind the photo.
   weave: {

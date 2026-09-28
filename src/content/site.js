@@ -22,9 +22,6 @@ export const site = {
   },
   replyTime: '2 working days',
 
-  // Show projects that don't have a film yet (they get a placeholder frame).
-  showUnreleased: true,
-
   nav: [
     { label: 'Work', to: '/projects' },
     { label: 'About', to: '/about' },
@@ -35,16 +32,16 @@ export const site = {
   // A key ending in "/" also matches every page under it.
   taglines: {
     '/projects': { text: 'Want to be next?', link: { label: 'Start a project', to: '/contact' } },
+    '/projects/editing': { text: 'Want to be next?', link: { label: 'Start a project', to: '/contact' } },
     '/projects/': { text: 'Want something like this?', link: { label: 'Let’s talk', to: '/contact' } },
   },
 
   footer: {
     columns: [
       { title: 'Work', links: [
-        { label: 'Grab Malaysia', to: '/projects/grab-malaysia' },
-        { label: 'Google Gemini', to: '/projects/google-gemini' },
-        { label: 'Social UI Animation', to: '/projects/social-ui-animation' },
-        { label: 'All projects', to: '/projects' },
+        { label: 'Motion design', to: '/projects' },
+        { label: 'Video editing', to: '/projects/editing' },
+        { label: 'Grab case study', to: '/projects/grab-malaysia' },
       ] },
       { title: 'Studio', links: [
         { label: 'About', to: '/about' },

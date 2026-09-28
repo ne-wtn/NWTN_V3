@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { projects, findProject, filmOf } from '../content/projects'
+import { Link, Navigate, useParams } from 'react-router-dom'
+import { projects, findProject, filmOf, previewOf, categoryOf } from '../content/projects'
 import { projectPage as copy } from '../content/pages'
-import { site } from '../content/site'
 import { asset, usePageTitle } from '../lib/util'
 import { play } from '../lib/video'
 import Media, { SoundToggle } from '../components/Media'
@@ -13,10 +12,13 @@ export default function Project() {
   const project = findProject(slug)
   usePageTitle(project?.name || 'Not found')
   if (!project) return <NotFound />
+  // Films without a case study open in the player on their category's page.
+  if (!project.caseStudy) return <Navigate to={categoryOf(project).path} state={{ play: project.slug }} replace />
   return <ProjectBody key={project.slug} project={project} />
 }
 
 function ProjectBody({ project }) {
+  const study = project.caseStudy
   const video = useRef(null)
   const [now, setNow] = useState(0)
   const film = filmOf(project)
@@ -35,15 +37,16 @@ function ProjectBody({ project }) {
     v.currentTime = t
     play(v)
   }
-  const active = project.chapters.findLastIndex(c => now >= c.t - 0.05)
+  const active = study.chapters.findLastIndex(c => now >= c.t - 0.05)
 
-  const pool = site.showUnreleased ? projects : projects.filter(p => p.film)
+  // The next case study, when there's more than one.
+  const pool = projects.filter(p => p.caseStudy)
   const next = pool[(pool.indexOf(project) + 1) % pool.length]
 
   const meta = [
     [copy.meta.client, project.client],
-    [copy.meta.discipline, project.discipline],
-    [copy.meta.year, project.year],
+    [copy.meta.discipline, study.discipline],
+    [copy.meta.year, study.year],
   ].filter(([, v]) => v)
 
   return (
@@ -67,11 +70,11 @@ function ProjectBody({ project }) {
           )}
         </figure>
 
-        {project.chapters.length > 0 && (
+        {study.chapters.length > 0 && (
           <div className="chapters">
             <h2 className="sr-only">{copy.chapters}</h2>
             <ol>
-              {project.chapters.map((c, i) => (
+              {study.chapters.map((c, i) => (
                 <li key={c.t}>
                   <button type="button" onClick={() => seek(c.t)} aria-current={i === active ? 'true' : undefined}>
                     <img src={asset(c.thumb)} alt="" loading="lazy" draggable={false} />
@@ -87,20 +90,20 @@ function ProjectBody({ project }) {
 
       <section className="wrap project-text">
         <div className="project-desc">
-          {project.description.map((p, i) => <p key={i}>{p}</p>)}
+          {study.description.map((p, i) => <p key={i}>{p}</p>)}
         </div>
         <div className="project-notes">
           <h2>{copy.process}</h2>
-          <p>{project.process}</p>
+          <p>{study.process}</p>
           <h2>{copy.tools}</h2>
-          <p>{project.tools}</p>
+          <p>{study.tools}</p>
         </div>
       </section>
 
-      {project.stills.length > 0 && (
+      {study.stills.length > 0 && (
         <section className="wrap stills">
           <h2>{copy.stills}</h2>
-          {project.stills.map(s => (
+          {study.stills.map(s => (
             <figure key={s.src}>
               <Media media={{ type: 'image', ...s }} />
               <figcaption>{s.caption}</figcaption>
@@ -117,7 +120,7 @@ function ProjectBody({ project }) {
               <h2>{next.name}</h2>
               <p>{next.summary}</p>
             </div>
-            <Media media={filmOf(next)} placeholder="In the edit" className="next-media" />
+            <Media media={previewOf(next)} placeholder="In the edit" className="next-media" />
           </Link>
         </section>
       )}

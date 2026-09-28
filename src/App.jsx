@@ -11,7 +11,7 @@ import NotFound from './pages/NotFound'
 export const routes = createRoutesFromElements(
   <Route element={<Layout />}>
     <Route index element={<Home />} />
-    <Route path="projects" element={<Projects />} />
+    <Route path="projects/editing?" element={<Projects />} />
     <Route path="projects/:slug" element={<Project />} />
     <Route path="about" element={<About />} />
     <Route path="contact" element={<Contact />} />

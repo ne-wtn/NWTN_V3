@@ -18,12 +18,12 @@ Almost every change is one edit in `src/content/` or one file in `public/media/`
 | Email, phone, socials, footer links | `src/content/site.js` |
 | Spots open this month | `site.js` → `availability.spots` |
 | Home headline, bands, selected work | `src/content/home.js` |
-| A project's text, film, chapters, stills | `src/content/projects.js` |
+| Work: films, their categories and lines, the Grab case study | `src/content/projects.js` |
 | About page | `src/content/about.js` |
 | Contact letter, dropdown options, brief rows, messages | `src/content/contact.js` |
 | The two emails sent for each brief | `emails/brief.js` |
 | Privacy and Terms | `src/content/legal.js` |
-| Projects page and 404 copy | `src/content/pages.js` |
+| Work page and 404 copy | `src/content/pages.js` |
 | Colours, fonts, sizes | `src/styles/tokens.css` |
 
 ### Swapping media
@@ -39,9 +39,19 @@ A media value is one of:
 null   // shows a crossed placeholder frame until the real thing is ready
 ```
 
-A project with `film: null` shows "In the edit" everywhere. Once its film exists, add the `film` object and it moves to the main grid by itself. Hide unfinished projects entirely with `showUnreleased: false` in `site.js`.
+`start` skips slow fade-ins when a film autoplays.
 
-Keep films web-sized: 1280px wide, H.264, around 1–6 MB. `start` skips slow fade-ins when a film autoplays.
+### The Work page
+
+Work is shown one category at a time: motion design at `/projects`, video editing at `/projects/editing`. The page title is the switch between them: the category you're on in ink, the other a blue link. Switching only moves the films (they slide across in the direction of the switch, in `src/pages/Projects.jsx`); the title, nav and footer stay put. Each film in `projects.js` has a `category` (`motion` or `edit`), a `shape` (`wide`, `square` or `tall` for the phone edits) and a one-line `summary`. Films marked `lead: true` come first: side by side for motion design, with the rest in a row under them; video editing shows three portrait films to a row. A film with a `caseStudy` (only Grab for now) has its own page; the others open full size in a player, with sound.
+
+To add a film, make its three files (full film, silent preview loop, still) with:
+
+```
+python tools/film.py "path/to/export.mp4" my-film --shape tall --preview 3
+```
+
+then copy an entry in `projects.js` and point it at `media/films/my-film…`. Keep each file under 25 MB (Cloudflare's limit); the tool's settings do that for films up to about a minute.
 
 ### Adding a band to the home page
 

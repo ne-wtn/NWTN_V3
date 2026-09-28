@@ -1,18 +1,4 @@
 // A sound wave that plays: rounded bars in the ribbon's gradient, tallest in the middle,
-// moving the way a level meter does while a track plays. Each bar jumps on the beat and
-// falls back a little slower, the bars move out of step with each other, and the whole
-// thing breathes louder and quieter. It grows in from the middle when it first comes
-// into view, and only animates while on screen.
-//
-// It fills the element it's given (components/SoundWave.jsx), which sits in the layout
-// just above a band's paragraph.
-//
-// Given a levels file (made from a real song with tools/levels.py), the bars replay that
-// song's levels on a loop instead: bass in the middle, higher sounds towards the edges.
-// No audio is loaded or played, only the numbers. The song runs on the page's clock from
-// the moment the site loads, so whenever the bars come into view they show wherever the
-// song has got to, like a track that's been playing all along.
-
 // The light end of the brand gradient, so it glows against the deep blue.
 const PAINT = [[0, '#8DB4DC'], [0.35, '#9EAAF4'], [0.65, '#C3A9F0'], [1, '#E7A6DA']]
 const BPM = 124

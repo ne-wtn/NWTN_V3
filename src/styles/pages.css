@@ -52,6 +52,10 @@
     linear-gradient(to bottom, rgba(0, 18, 36, 0.6) 0%, rgba(0, 18, 36, 0) 18%, rgba(0, 18, 36, 0.35) 40%, rgba(0, 18, 36, 0.9) 68%, rgba(0, 18, 36, 0.94) 100%),
     rgba(0, 18, 36, 0.28);
 }
+/* The words sit over the film; clicks go through the empty space around them, so the film's
+   caption (its name and the sound button) can be reached. */
+.hero-inner { pointer-events: none; }
+.hero-inner > * { pointer-events: auto; }
 .hero-film figcaption { position: absolute; top: 16px; left: var(--edge); right: var(--edge); z-index: 1; margin: 0; color: rgba(255, 255, 255, 0.82); }
 .hero .caption strong, .hero .caption .link-button { color: #fff; }
 @media (max-width: 700px) { .hero h1 { font-size: clamp(2.9rem, 12.4vw, 4.2rem); } }
@@ -78,9 +82,29 @@
 .page-sub + .page-sub { margin-top: 10px; }
 
 /* ---------- Projects ---------- */
-.in-edit { padding-top: var(--band-pad); }
-.in-edit .section-head h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); }
-@media (max-width: 700px) { .in-edit .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* ---------- Work (Projects.jsx) ---------- */
+/* The title is the switch: the category you're on in ink, the other a blue link to it. */
+.page-head .work-switch { max-width: none; }
+.work-switch a { color: var(--blue-700); text-decoration: underline; text-decoration-thickness: 0.05em; text-underline-offset: 0.12em; transition: color 0.3s; }
+.work-switch a:hover { text-decoration-thickness: 0.09em; }
+.work-switch a[aria-current] { color: var(--ink); text-decoration: none; }
+.work-sep { color: var(--mute); font-weight: 400; margin-inline: 0.1em; }
+/* The films slide within this; its height eases between the two categories. */
+.work-stage { overflow: clip; }
+.work-films { padding-bottom: var(--band-pad); }
+.work-leads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(16px, 2vw, 28px); }
+/* Under the leads, one row at a shared height, each film at its own shape. */
+.work-rest { display: flex; gap: clamp(16px, 2vw, 28px); margin-top: clamp(36px, 4vw, 56px); align-items: flex-start; }
+/* Video editing: portrait films, three to a row. */
+.work-tall { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(14px, 1.8vw, 24px); }
+.work-more { aspect-ratio: 9 / 16; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; padding: clamp(18px, 2vw, 28px); border-radius: 6px; background: var(--sky); font-size: clamp(20px, 2vw, 28px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; }
+.work-more .u { font-size: 16px; letter-spacing: 0; }
+@media (max-width: 700px) {
+  .work-leads { grid-template-columns: 1fr; }
+  .work-rest { flex-direction: column; }
+  .work-rest > .card { flex: none !important; width: 100%; }
+  .work-tall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* ---------- Project ---------- */
 .project-head { padding-block: clamp(28px, 3.5vw, 48px) clamp(28px, 3vw, 44px); }

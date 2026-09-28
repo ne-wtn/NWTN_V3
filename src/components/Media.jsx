@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { asset } from '../lib/util'
-import { useAutoplay, setSound, isAudible, onSoundChange } from '../lib/video'
+import { useAutoplay, setSound, isAudible, onSoundChange, keptVideo, watch } from '../lib/video'
 import InlineModel from './InlineModel'
 
 // Films only do what the site tells them: no download button, picture-in-picture,
 // casting or dragging. (The right-click menu is blocked in Layout.)
-const LOCKED_VIDEO = {
+export const LOCKED_VIDEO = {
   controlsList: 'nodownload nofullscreen noremoteplayback noplaybackrate',
   disablePictureInPicture: true,
   disableRemotePlayback: true,
@@ -16,11 +16,16 @@ const LOCKED_VIDEO = {
 //   media = { type: 'video', src, poster, start } | { type: 'image', src, alt, width, height } | null
 //   An image's width and height (its pixel size) let the page save its space before it loads.
 // null shows a placeholder frame with `placeholder` written in it.
-export default function Media({ media, placeholder = 'Image to come', className = '', ratio, autoplay = true, videoRef }) {
+// `persist` keeps a film running while you're elsewhere on the site (see keptVideo).
+export default function Media({ media, placeholder = 'Image to come', className = '', ratio, autoplay = true, videoRef, persist = false }) {
   const own = useRef(null)
   const ref = videoRef || own
-  useAutoplay(ref, media?.type === 'video' && autoplay)
+  useAutoplay(ref, media?.type === 'video' && autoplay && !persist)
   const style = ratio ? { aspectRatio: ratio } : undefined
+
+  if (media?.type === 'video' && persist) {
+    return <KeptVideo media={media} className={className} style={style} videoRef={ref} />
+  }
 
   if (!media) {
     return (
@@ -42,6 +47,26 @@ export default function Media({ media, placeholder = 'Image to come', className 
       <img src={asset(media.src)} alt={media.alt || ''} width={media.width} height={media.height} loading="lazy" decoding="async" draggable={false} />
     </div>
   )
+}
+
+// A film that keeps running while you're elsewhere on the site: the same video element is
+// put back each time, picking up where the site's clock says it should be.
+function KeptVideo({ media, className, style, videoRef }) {
+  const holder = useRef(null)
+  const { src, poster, start, alt } = media
+  useEffect(() => {
+    const v = keptVideo(asset(src), { poster: asset(poster), start, label: alt })
+    holder.current.append(v)
+    videoRef.current = v
+    const stop = watch(v)
+    return () => {
+      stop()
+      setSound(v, false) // back to muted, the way it is on a first visit
+      v.remove() // taking it out of the page pauses it
+      if (videoRef.current === v) videoRef.current = null
+    }
+  }, [src, poster, start, alt, videoRef])
+  return <div ref={holder} className={`media ${className}`} style={style} />
 }
 
 // "Sound on / Sound off" for the film in `videoRef`.
