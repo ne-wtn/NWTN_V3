@@ -72,7 +72,7 @@ export const projects = [
   {
     slug: 'social-ui-animation',
     name: 'Social UI',
-    client: 'Alice Lugendo',
+    client: 'UGC Creator',
     category: 'motion',
     shape: 'wide',
     film: { src: 'media/films/social-ui.mp4', preview: 'media/films/social-ui-preview.mp4', poster: 'media/films/social-ui.jpg', start: 6.2 },
