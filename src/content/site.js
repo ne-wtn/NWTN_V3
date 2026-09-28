@@ -17,10 +17,10 @@ export const site = {
 
   // Edit by hand each month. The month name fills itself in.
   availability: {
-    spots: 4,
+    spots: 2,
     perMonth: '1–4',
   },
-  replyTime: '2 working days',
+  replyTime: '24 hours',
 
   nav: [
     { label: 'Work', to: '/projects' },

@@ -14,7 +14,7 @@ export const contact = {
   title: 'Tell me about your project.',
   intro: [
     'I help category-leading SaaS brands turn complex features into cinematic visual stories.',
-    'Fill in the blanks below. It takes about two minutes, and I’ll reply within {replyTime}.',
+    'Fill in the blanks below. It takes about two minutes, and I’ll reply as soon as I can within 24 hours.',
   ],
 
   letter: [
@@ -112,10 +112,10 @@ export const contact = {
   },
 
   sent: {
-    title: 'Oh it’s onnn!',
-    tagline: 'one of the best decisions you’ve done.',
-    body: 'I’m on it. Expect a reply within {replyTime}, stg. Matter of fact, a confirmation just dropped in your inbox 📬',
-    note: 'In the meantime, go touch some grass. No actually, just look at more of what I do.',
+    title: 'Thank You!',
+    tagline: 'Your brief was sent successfully',
+    body: 'I have received your brief and I will get back to you as soon as I can with the next steps',
+    note: 'In the meantime you can go throught more of my Work and Case Studies. See you soon!',
     cta: { label: 'View selected work', to: '/projects' },
     again: 'Start a new brief',
   },

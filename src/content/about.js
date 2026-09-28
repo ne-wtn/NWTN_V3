@@ -3,7 +3,7 @@
 export const about = {
   label: 'About',
   title: 'My brand was built on a single obsession.',
-  intro: 'What started with a laptop and pure will has grown into a full-pipeline studio for visual storytelling and animation. No shortcuts, no luck.',
+  intro: 'What started as a dream and pure will has grown into a full-pipeline studio for visual storytelling and Motion Design.',
   media: { type: 'image', src: 'media/process/storyboard.jpg', width: 1600, height: 900, alt: 'Sixteen-frame storyboard in Figma' },
   caption: 'Where every project starts: the storyboard.',
 
@@ -45,7 +45,7 @@ export const about = {
 
   tools: {
     title: 'Tools',
-    items: ['After Effects', 'Premiere Pro', 'Illustrator', 'Figma', 'Audition'],
+    items: ['After Effects', 'Premiere Pro', 'Illustrator', 'Figma', 'Photoshop'],
   },
 
   close: {

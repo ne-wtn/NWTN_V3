@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { home } from '../content/home'
 import { findProject, filmOf, linkTo } from '../content/projects'
 import { fill, listSentence, usePageTitle } from '../lib/util'
-import Media, { InlineMedia, SoundToggle } from '../components/Media'
+import Media, { InlineMedia } from '../components/Media'
 import Band from '../components/Band'
 import ProjectCard from '../components/ProjectCard'
 import FilmPlayer from '../components/FilmPlayer'
@@ -14,14 +14,13 @@ export default function Home() {
   usePageTitle(null)
   const { hero, clients, bands, work, close } = home
   const heroProject = findProject(hero.film)
-  const heroVideo = useRef(null)
   const closer = useRef(null)
   const [playing, setPlaying] = useState(null)
   useRibbon(closer, close.ribbon)
 
   return (
     <>
-      {/* The film fills the first screen; the words sit over it. */}
+      {/* The film fills the first screen, always muted; the words sit over it. */}
       <section className="hero">
         <div className="wrap hero-inner">
           <h1>
@@ -34,10 +33,9 @@ export default function Home() {
             <SmartLink className="btn btn--lg btn--light" link={hero.cta} />
           </div>
           <figure className="hero-film">
-            <Media media={filmOf(heroProject)} videoRef={heroVideo} placeholder="Showreel to come" persist />
+            <Media media={filmOf(heroProject)} placeholder="Showreel to come" persist />
             <figcaption className="caption">
               <span><Link {...linkTo(heroProject)} viewTransition><strong>{heroProject.name}</strong></Link>, {hero.caption}</span>
-              <SoundToggle videoRef={heroVideo} />
             </figcaption>
           </figure>
         </div>
