@@ -30,15 +30,6 @@ const ROUTES = {
       anchors: [[-0.15, 0.32], [0.3, 0.13], [0.74, 0.05], [1.02, 0.18], [0.92, 0.38], [0.5, 0.48], [0.14, 0.62], [0.16, 0.84], [0.5, 0.97], [1.15, 0.9]] },
   },
 
-  // Home, Tech = Motion: an After Effects motion path, rising from behind the screenshot,
-  // arcing over the heading and easing down the far edge.
-  'motion-path': {
-    wide: { width: 0.9, paint: 'brand',
-      anchors: [[-0.08, 0.97], [0.2, 0.94], [0.44, 0.9], [0.52, 0.6], [0.54, 0.26], [0.62, 0.08], [0.8, 0.05], [0.97, 0.18], [1.02, 0.5], [0.98, 0.85], [1.04, 1.1]] },
-    tall: { width: 1, paint: 'brand', grad: [0.5, 0, 0.5, 1],
-      anchors: [[-0.1, 1.03], [0.4, 0.99], [0.8, 0.84], [1.04, 0.55], [1.02, 0.35], [0.82, 0.1], [0.55, 0.04], [0.3, 0.1], [-0.1, 0.06]] },
-  },
-
   // Home, closing section: the ribbon winds in, loops once and plugs into the button.
   'to-button': {
     wide: { width: 0.7, paint: 'brand',

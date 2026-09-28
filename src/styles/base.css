@@ -60,6 +60,24 @@ button, input, textarea { font: inherit; color: inherit; }
 a, .link-button { transition: opacity 0.12s; }
 a:active, .link-button:active { opacity: 0.6; }
 
+/* Moving between pages (internal links use react-router's viewTransition): the old page
+   fades away quickly while the new one rises into place. The nav stays put throughout.
+   Browsers without view transitions just swap the page, as before. */
+.nav { view-transition-name: nav; }
+::view-transition-old(root) { animation: page-out 0.18s ease-in both; }
+::view-transition-new(root) { animation: page-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both; }
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* The site opening (lib/opening.js): the page stays hidden for a moment while its fonts and
+   first-screen images arrive, then the nav fades in and the page rises into place. */
+html.is-opening #root { opacity: 0; }
+html.is-entering .nav { animation: open-nav 0.6s ease-out both; }
+html.is-entering #main { animation: open-page 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
+@keyframes open-nav { from { opacity: 0; } }
+@keyframes open-page { from { opacity: 0; transform: translateY(18px); } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

@@ -76,9 +76,7 @@ export const home = {
     },
     {
       tone: 'sand',
-      ribbon: 'motion-path',
       layout: 'split-reverse',
-      label: 'Tech = Motion',
       title: 'Built by hand, frame by frame.',
       body: 'No template packs doing the heavy lifting. I build every frame myself, so I act as your creative director and motion lead at once.',
       cta: { label: 'Services', to: '/about#services' },

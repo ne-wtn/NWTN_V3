@@ -68,6 +68,16 @@ then set `soundwave: { levels: 'media/levels/song.lvl', start: 0 }` (`start` shi
 
 Delete a setting to turn that ribbon off. On dark sections the colours switch to a darker set automatically so white text stays readable. Anchors ending in a selector (like `['.btn', 0.12, 0.5]`) make a ribbon finish exactly on that element.
 
+### Page changes
+
+Moving between pages, the old page fades away and the new one rises into place while the nav stays put (the browser's view transitions, switched on by `viewTransition` on each internal link). Back and Forward animate the same way and return you to where you were on the page. The timings are the `page-out` and `page-in` lines in `src/styles/base.css`. Browsers without view transitions, and visitors who ask for reduced motion, get an instant change. New internal links should use `SmartLink` or add `viewTransition` to their `<Link>`.
+
+### The opening
+
+When someone first opens the site (on any page), it stays plain white for a moment while the fonts and the images on the first screen arrive, then the nav fades in and the page rises into place, so nothing pops in or changes font in front of them. It never waits more than 2 seconds; on a slow connection the page comes in on time and anything still missing fills in afterwards. The logic is in `src/lib/opening.js` (the time limit is `LIMIT`), the look is the `open-nav` and `open-page` lines in `src/styles/base.css`. A custom intro animation would play during this wait; `startOpening` in `opening.js` is where it hooks in.
+
+The 3D models in the headline start downloading straight away but are only set up once the page has come in, so they never hold it up. Then they fade in and grow into place one after another, swinging round to face you (`.inline-model` in `src/styles/pages.css`, and the starting turn in `src/lib/model3d.js`).
+
 ### The contact form
 
 The brief is a letter with blanks. As it's filled in, the "Your brief" card beside it fills in too. Holding "Your brief" clears everything (with Undo).
@@ -106,6 +116,7 @@ browser ──POST──▶ /api/brief (functions/api/brief.js, runs on Cloudfla
   - Note the **Template ID**.
 - *Account → API keys*: note the **Public key** and **Private key**.
 - *Account → Security*: turn on **Allow EmailJS API for non-browser applications** (the sending happens on the server).
+- EmailJS takes one request a second, so the client's copy goes out about a second after yours (handled in `server/mail.js`). If a client says they didn't get theirs, open *Email History* in EmailJS: the To address on their email should be theirs. If it's yours, the template's To Email isn't `{{to_email}}`.
 
 **2. Turnstile** (Cloudflare dashboard → Turnstile → Add widget)
 - Hostname `newtnfx.com`, widget mode *Managed*. Note the **Site key** and **Secret key**.

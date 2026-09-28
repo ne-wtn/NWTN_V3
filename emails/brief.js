@@ -9,7 +9,7 @@
 
 import { contact } from '../src/content/contact.js'
 import { site } from '../src/content/site.js'
-import { briefRows, phrase } from '../src/contact/briefData.js'
+import { display, phrase } from '../src/contact/briefData.js'
 
 const F = "'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
 const C = {
@@ -40,11 +40,13 @@ function layout({ title, preheader, body, footer, assets }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light only">
 <meta name="supported-color-schemes" content="light only">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
 <title>${esc(title)}</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; }
   a { color: ${C.blue}; }
+  a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; }
   @media (max-width: 620px) {
     .px { padding-left: 22px !important; padding-right: 22px !important; }
     .card-px { padding-left: 18px !important; padding-right: 18px !important; }
@@ -98,16 +100,34 @@ function button(href, label, { light = false } = {}) {
 </table>`
 }
 
+// Answers that are addresses become links. They're written as white links on purpose:
+// otherwise Gmail and phone mail apps turn them into their own blue links, which vanish
+// against the blue card.
+function linkFor(key, v) {
+  if (key === 'website') return /^https?:\/\//i.test(v) ? v : `https://${v}`
+  if (key === 'email') return `mailto:${v}`
+  if (key === 'phone') return `tel:${v.replace(/[^\d+]/g, '')}`
+  return null
+}
+
+// The rows of the brief, as on the site: [{ id, label, value, html }]
+function cardRows(values) {
+  return contact.nodes.map(n => {
+    const parts = n.fields.map(k => [k, display(k, values)]).filter(([, v]) => v)
+    const html = parts.map(([k, v]) => {
+      const href = linkFor(k, v)
+      return href ? `<a href="${esc(href)}" style="color:#FFFFFF;text-decoration:underline;">${esc(v)}</a>` : multiline(v)
+    })
+    return { id: n.id, label: n.short, value: parts.map(([, v]) => v).join(', '), html: html.join(', ') }
+  })
+}
+
 // The blue brief card, the same one as on the site.
 function briefCard(rows, title) {
   const done = rows.filter(r => r.value).length
   const cells = rows.map((r, i) => {
     const line = i === 0 ? 'none' : `1px solid ${C.blueLine}`
-    const value = r.value
-      ? r.href
-        ? `<a href="${esc(r.href)}" style="color:#FFFFFF;text-decoration:underline;">${multiline(r.value)}</a>`
-        : multiline(r.value)
-      : '<span style="color:#7FA3C6;">—</span>'
+    const value = r.value ? r.html : '<span style="color:#7FA3C6;">—</span>'
     return `<tr>
       <td class="label-col" width="84" valign="top" style="width:84px;padding:11px 0;border-top:${line};font:14px/1.45 ${F};color:${C.blue100};">${esc(r.label)}</td>
       <td valign="top" style="padding:11px 0;border-top:${line};font:500 16px/1.45 ${F};color:#FFFFFF;">${value}</td>
@@ -144,11 +164,7 @@ export function notifyEmail(values, { at = new Date(), assets = `${site.domain}/
   const want = phrase('goal', values)
   const digits = values.phone.replace(/[^\d]/g, '')
 
-  const rows = briefRows(values).map(r => {
-    if (r.id === 'email') return { ...r, href: `mailto:${values.email.trim()}` }
-    if (r.id === 'phone') return { ...r, href: `tel:${values.phone.replace(/[^\d+]/g, '')}` }
-    return r
-  })
+  const rows = cardRows(values)
 
   const subject = `New brief: ${name}, ${company}`
   const preheader = [phrase('goal', values), rows.find(r => r.id === 'budget')?.value, values.deadline.trim() && `due ${values.deadline.trim()}`].filter(Boolean).join(' · ')
@@ -177,7 +193,7 @@ Reply to ${values.email.trim()}${digits ? ` or WhatsApp https://wa.me/${digits}`
 
 export function replyEmail(values, { assets = `${site.domain}/media` } = {}) {
   const first = firstName(values)
-  const rows = briefRows(values)
+  const rows = cardRows(values)
 
   const subject = `Got your brief, ${first}`
   const preheader = `I’ll reply within ${replyTime}. Here’s a copy of what you sent.`

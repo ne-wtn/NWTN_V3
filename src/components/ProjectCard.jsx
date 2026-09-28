@@ -7,7 +7,7 @@ export default function ProjectCard({ project, detail = 'discipline' }) {
   const meta = project.discipline
   return (
     <figure className="card">
-      <Link to={`/projects/${project.slug}`} className="card-link">
+      <Link to={`/projects/${project.slug}`} viewTransition className="card-link">
         <Media media={film} placeholder="In the edit" className="card-media" />
         <figcaption>
           <strong>{project.name}</strong>

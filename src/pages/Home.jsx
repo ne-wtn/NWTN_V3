@@ -34,7 +34,7 @@ export default function Home() {
           <figure className="hero-film">
             <Media media={filmOf(heroProject)} videoRef={heroVideo} placeholder="Showreel to come" />
             <figcaption className="caption">
-              <span><Link to={`/projects/${heroProject.slug}`}><strong>{heroProject.name}</strong></Link>, {hero.caption}</span>
+              <span><Link to={`/projects/${heroProject.slug}`} viewTransition><strong>{heroProject.name}</strong></Link>, {hero.caption}</span>
               <SoundToggle videoRef={heroVideo} />
             </figcaption>
           </figure>

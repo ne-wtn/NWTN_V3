@@ -35,6 +35,10 @@
    can float into the space around the words. */
 .hero .inline-model { position: relative; width: 1.1em; background: none; box-shadow: none; overflow: visible; }
 .inline-model canvas { position: absolute; top: -0.24em; left: -0.2em; width: calc(100% + 0.4em); height: calc(100% + 0.48em); pointer-events: none; }
+/* A model appears once it's drawn: it fades in and grows into place while it swings round
+   to face you (lib/model3d.js), instead of popping in when its file arrives. */
+.inline-model canvas { opacity: 0; transform: scale(0.8); transition: opacity 0.6s ease-out, transform 1s cubic-bezier(0.22, 1, 0.36, 1); }
+.inline-model.is-ready canvas { opacity: 1; transform: none; }
 .hero-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 48px; flex-wrap: wrap; margin-top: clamp(22px, 2.5vw, 34px); }
 .hero-intro p { font-size: var(--fs-lead); line-height: 1.45; max-width: 42ch; color: rgba(255, 255, 255, 0.88); }
 .hero-film { position: absolute; inset: 0; z-index: -1; margin: 0; }

@@ -17,6 +17,17 @@ function listen() {
   document.documentElement.addEventListener('mouseleave', () => { pointer.active = false })
 }
 
+// Model files, each downloaded once and kept (preloadModel starts a download early).
+const files = new Map()
+export function preloadModel(src) {
+  if (!files.has(src)) {
+    files.set(src, fetch(src)
+      .then(r => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`${r.status} ${src}`))))
+      .catch(e => { files.delete(src); throw e }))
+  }
+  return files.get(src)
+}
+
 const REACH = 0.45 // how strongly it turns: the cursor this share of the screen away ≈ 45°
 const FOLLOW = 4 // how quickly it catches up with the cursor (higher = snappier)
 const MAX_TURN = 1.2 // cap on the turn (tan of ~50°), so flat models never go edge-on
@@ -27,7 +38,8 @@ const MAX_TURN = 1.2 // cap on the turn (tan of ~50°), so flat models never go 
 //   range   how far it turns towards the cursor (1 = full, 0.5 = half)
 //   scale   size within its slot (1 = fills it; round models like a ball look right smaller)
 //   still   no movement (reduced motion)
-export function mountModel(canvas, src, { rotate = [0, 0, 0], crop = 1, range = 1, scale = 1, still = false, onError } = {}) {
+//   onReady called once the model is drawn, with a function to call as the slot shows it
+export function mountModel(canvas, src, { rotate = [0, 0, 0], crop = 1, range = 1, scale = 1, still = false, onReady, onError } = {}) {
   let renderer
   try {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' })
@@ -125,47 +137,51 @@ export function mountModel(canvas, src, { rotate = [0, 0, 0], crop = 1, range = 
   document.addEventListener('visibilitychange', start)
   listen()
 
-  new GLTFLoader().load(src, gltf => {
-    if (disposed) return
-    // Resting angle first, then centre and scale to a sphere of radius 1.
-    const orient = new THREE.Group()
-    orient.rotation.set(...rotate.map(THREE.MathUtils.degToRad))
-    orient.add(gltf.scene)
-    const holder = new THREE.Group()
-    holder.add(orient)
-    holder.updateMatrixWorld(true)
+  preloadModel(src)
+    .then(data => new Promise((resolve, reject) => new GLTFLoader().parse(data, '', resolve, reject)))
+    .then(gltf => {
+      if (disposed) return
+      // Resting angle first, then centre and scale to a sphere of radius 1.
+      const orient = new THREE.Group()
+      orient.rotation.set(...rotate.map(THREE.MathUtils.degToRad))
+      orient.add(gltf.scene)
+      const holder = new THREE.Group()
+      holder.add(orient)
+      holder.updateMatrixWorld(true)
 
-    // Every vertex in the holder's space: used to frame (and trim) precisely.
-    const points = []
-    const v = new THREE.Vector3()
-    gltf.scene.traverse(o => {
-      if (!o.isMesh) return
-      const pos = o.geometry.attributes.position
-      for (let i = 0; i < pos.count; i++) points.push(v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld).clone())
-    })
-    let keep = points
-    let cutZ = -Infinity
-    if (crop < 1) {
-      const zs = points.map(p => p.z)
-      const zMax = Math.max(...zs)
-      const zMin = Math.min(...zs)
-      cutZ = zMax - crop * (zMax - zMin)
-      keep = points.filter(p => p.z >= cutZ)
-    }
-    const sphere = new THREE.Sphere().setFromPoints(keep)
-    orient.position.sub(sphere.center)
-    holder.scale.setScalar(scale / sphere.radius)
-    pivot.add(holder)
+      // Every vertex in the holder's space: used to frame (and trim) precisely.
+      const points = []
+      const v = new THREE.Vector3()
+      gltf.scene.traverse(o => {
+        if (!o.isMesh) return
+        const pos = o.geometry.attributes.position
+        for (let i = 0; i < pos.count; i++) points.push(v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld).clone())
+      })
+      let keep = points
+      let cutZ = -Infinity
+      if (crop < 1) {
+        const zs = points.map(p => p.z)
+        const zMax = Math.max(...zs)
+        const zMin = Math.min(...zs)
+        cutZ = zMax - crop * (zMax - zMin)
+        keep = points.filter(p => p.z >= cutZ)
+      }
+      const sphere = new THREE.Sphere().setFromPoints(keep)
+      orient.position.sub(sphere.center)
+      holder.scale.setScalar(scale / sphere.radius)
+      pivot.add(holder)
 
-    if (crop < 1) {
-      // The cut, in the pivot's own space (so it turns with the model).
-      cutLocal = new THREE.Plane(new THREE.Vector3(0, 0, 1), -(cutZ - sphere.center.z) / sphere.radius)
-      renderer.clippingPlanes = [cutWorld]
-    }
-    dirty = true
-    render()
-    start()
-  }, undefined, () => onError?.())
+      if (crop < 1) {
+        // The cut, in the pivot's own space (so it turns with the model).
+        cutLocal = new THREE.Plane(new THREE.Vector3(0, 0, 1), -(cutZ - sphere.center.z) / sphere.radius)
+        renderer.clippingPlanes = [cutWorld]
+      }
+      dirty = true
+      render()
+      // As it's shown, it turns a little away and the follow swings it round to face you.
+      onReady?.(() => { if (!still) pivot.quaternion.setFromEuler(new THREE.Euler(0.15, -0.5, 0)) })
+      start()
+    }, () => onError?.())
 
   return () => {
     disposed = true

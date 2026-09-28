@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 import Nav from './Nav'
 import Footer from './Footer'
 
 export default function Layout() {
-  const { pathname, hash } = useLocation()
-
   // No right-click menu or dragging on images and films, so they can't be saved,
   // looped or opened from the browser's menu.
   useEffect(() => {
@@ -18,15 +16,6 @@ export default function Layout() {
     }
   }, [])
 
-  // New page starts at the top; /about#services jumps to that section.
-  useEffect(() => {
-    if (hash) {
-      const el = document.getElementById(hash.slice(1))
-      if (el) return el.scrollIntoView()
-    }
-    window.scrollTo(0, 0)
-  }, [pathname, hash])
-
   return (
     <>
       <a className="skip" href="#main">Skip to content</a>
@@ -35,6 +24,9 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      {/* A new page starts at the top, /about#services jumps to that section,
+          and Back returns to where you were. */}
+      <ScrollRestoration />
     </>
   )
 }

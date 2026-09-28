@@ -18,16 +18,16 @@ export default function Nav() {
   return (
     <header className="nav">
       <div className="wrap nav-bar">
-        <Link className="logo" to="/" aria-label={`${site.wordmark}, home`}>
+        <Link className="logo" to="/" viewTransition aria-label={`${site.wordmark}, home`}>
           <Mark />
           <span>{site.wordmark}</span>
         </Link>
         <nav className="nav-links" aria-label="Main">
-          {site.nav.map(l => <NavLink key={l.to} to={l.to}>{l.label}</NavLink>)}
+          {site.nav.map(l => <NavLink key={l.to} to={l.to} viewTransition>{l.label}</NavLink>)}
         </nav>
         <div className="nav-right">
           <span className="nav-avail">{site.availability.spots} spots open in {monthName()}</span>
-          <Link className="btn" to="/contact">Start a project</Link>
+          <Link className="btn" to="/contact" viewTransition>Start a project</Link>
           <button type="button" className="nav-menu link-button" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(o => !o)}>
             {open ? 'Close' : 'Menu'}
           </button>
@@ -36,7 +36,7 @@ export default function Nav() {
       {open && (
         <div className="menu" id="menu">
           <nav className="wrap" aria-label="Menu">
-            {site.nav.map(l => <NavLink key={l.to} to={l.to}>{l.label}</NavLink>)}
+            {site.nav.map(l => <NavLink key={l.to} to={l.to} viewTransition>{l.label}</NavLink>)}
             <p>{site.availability.spots} spots open in {monthName()}</p>
           </nav>
         </div>

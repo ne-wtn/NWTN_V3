@@ -161,8 +161,8 @@ export default function BriefLetter() {
                 onChange={e => { setConsent(e.target.checked); setErrors(({ consent: _, ...rest }) => rest) }}
               />
               <span>
-                {contact.consent.text} <Link className="u" to="/privacy">{contact.consent.privacy}</Link> {contact.consent.and}{' '}
-                <Link className="u" to="/terms">{contact.consent.terms}</Link>.
+                {contact.consent.text} <Link className="u" to="/privacy" viewTransition>{contact.consent.privacy}</Link> {contact.consent.and}{' '}
+                <Link className="u" to="/terms" viewTransition>{contact.consent.terms}</Link>.
               </span>
             </label>
 
@@ -212,7 +212,7 @@ function Sent({ record, onAgain, justSent }) {
         <p>{fill(s.body)}</p>
         <p className="sent-note">{s.note}</p>
         <div className="sent-actions">
-          <Link className="btn btn--lg" to={s.cta.to}>{s.cta.label}</Link>
+          <Link className="btn btn--lg" to={s.cta.to} viewTransition>{s.cta.label}</Link>
           <button type="button" className="link-button" onClick={onAgain}>{s.again}</button>
         </div>
       </div>

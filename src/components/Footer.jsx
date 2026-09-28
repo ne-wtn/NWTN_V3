@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="wrap">
           <div className="footer-cols">
             <div className="footer-brand">
-              <Link className="logo" to="/"><Mark /><span>{site.wordmark}</span></Link>
+              <Link className="logo" to="/" viewTransition><Mark /><span>{site.wordmark}</span></Link>
               <p>{site.discipline}.<br />{site.location}.</p>
             </div>
             {site.footer.columns.map(col => (

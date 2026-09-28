@@ -49,7 +49,7 @@ function ProjectBody({ project }) {
   return (
     <>
       <section className="wrap project-head">
-        <Link className="back u" to="/projects">{copy.back}</Link>
+        <Link className="back u" to="/projects" viewTransition>{copy.back}</Link>
         <h1>{project.name}</h1>
         <dl className="meta">
           {meta.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
@@ -111,7 +111,7 @@ function ProjectBody({ project }) {
 
       {next && next !== project && (
         <section className="band band--sky next">
-          <Link className="wrap next-link" to={`/projects/${next.slug}`}>
+          <Link className="wrap next-link" to={`/projects/${next.slug}`} viewTransition>
             <div>
               <p className="band-label">{copy.next}</p>
               <h2>{next.name}</h2>
