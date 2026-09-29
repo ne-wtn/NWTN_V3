@@ -20,7 +20,7 @@ Almost every change is one edit in `src/content/` or one file in `public/media/`
 | Home headline, bands, selected work | `src/content/home.js` |
 | Work: films, their categories and lines, the Grab case study | `src/content/projects.js` |
 | About page | `src/content/about.js` |
-| Contact letter, dropdown options, brief rows, messages | `src/content/contact.js` |
+| Contact letter, dropdown options, brief rows, messages, the Tally intake link | `src/content/contact.js` |
 | The two emails sent for each brief | `emails/brief.js` |
 | Privacy and Terms | `src/content/legal.js` |
 | Work page and 404 copy | `src/content/pages.js` |
@@ -117,16 +117,22 @@ browser ──POST──▶ /api/brief (functions/api/brief.js, runs on Cloudfla
 
 **1. EmailJS** (emailjs.com)
 - *Email Services*: connect the Gmail account nfxmotion@gmail.com. Note the **Service ID**.
-- *Email Templates* → create one template, used for both emails:
-  - Subject: `{{subject}}`
-  - Content: open the code editor and replace everything with `{{{html}}}` (three braces)
-  - To Email: `{{to_email}}`
-  - From Name: `{{from_name}}`, and keep "Use default email address" ticked
-  - Reply To: `{{reply_to}}`
-  - Note the **Template ID**.
+- *Email Templates*: two templates, one per email (the designs themselves come from `emails/brief.js`). Set both up the same way:
+
+  | Setting | Your copy ("Brief to Newton") | The client's copy ("Brief to client") |
+  |---|---|---|
+  | Subject | `{{subject}}` | `{{subject}}` |
+  | Content | code editor, replace everything with `{{{html}}}` (three braces) | the same |
+  | To Email | `{{to_email}}` (or nfxmotion@gmail.com) | `{{to_email}}`, **never your own address** |
+  | From Name | `{{sender_name}}` | `{{sender_name}}` |
+  | From Email | keep "Use default email address" ticked | the same |
+  | Reply To | `{{reply_to}}` | `{{reply_to}}` |
+
+  Note both **Template IDs**. (The old site's two templates also work as they are: every answer is sent under the names they use, `from_name`, `from_email`, `company`, `goal` and so on, plus `intake_url` for the Tally link. They'd show their own old text instead of these designs.)
 - *Account → API keys*: note the **Public key** and **Private key**.
 - *Account → Security*: turn on **Allow EmailJS API for non-browser applications** (the sending happens on the server).
-- EmailJS takes one request a second, so the client's copy goes out about a second after yours (handled in `server/mail.js`). If a client says they didn't get theirs, open *Email History* in EmailJS: the To address on their email should be theirs. If it's yours, the template's To Email isn't `{{to_email}}`.
+- EmailJS takes one request a second, so the client's copy goes out about a second after yours (handled in `server/mail.js`).
+- **If a client doesn't get their copy:** open *Email History* in EmailJS. Their email should be listed with their address as the recipient. If it went to you, the client template's To Email isn't `{{to_email}}`; if it isn't listed, check `EMAILJS_REPLY_TEMPLATE_ID`. After a test brief, the form's reply (browser DevTools → Network → `brief`) also says `"copy": "sent"` or `"failed"`.
 
 **2. Turnstile** (Cloudflare dashboard → Turnstile → Add widget)
 - Hostname `newtnfx.com`, widget mode *Managed*. Note the **Site key** and **Secret key**.
@@ -142,7 +148,8 @@ browser ──POST──▶ /api/brief (functions/api/brief.js, runs on Cloudfla
 | `NOTIFY_TO` | `nfxmotion@gmail.com` | Plain text |
 | `TURNSTILE_SECRET` | Turnstile secret key | Secret |
 | `EMAILJS_SERVICE_ID` | from step 1 | Secret |
-| `EMAILJS_TEMPLATE_ID` | from step 1 | Secret |
+| `EMAILJS_NOTIFY_TEMPLATE_ID` | your copy's template, from step 1 | Secret |
+| `EMAILJS_REPLY_TEMPLATE_ID` | the client's template, from step 1 | Secret |
 | `EMAILJS_PUBLIC_KEY` | from step 1 | Secret |
 | `EMAILJS_PRIVATE_KEY` | from step 1 | Secret |
 

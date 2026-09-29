@@ -5,7 +5,7 @@
 
 import { cleanBrief } from '../../src/contact/briefData.js'
 import { site } from '../../src/content/site.js'
-import { notifyEmail, replyEmail } from '../../emails/brief.js'
+import { notifyEmail, replyEmail, templateFields } from '../../emails/brief.js'
 import { verifyTurnstile } from '../../server/turnstile.js'
 import { sendMail } from '../../server/mail.js'
 
@@ -35,23 +35,27 @@ export async function onRequestPost({ request, env }) {
   const inbox = env.NOTIFY_TO || site.email
   const notify = notifyEmail(values, { at: new Date() })
   const reply = replyEmail(values)
+  const fields = templateFields(values)
 
   // Newton's copy first: if that fails, the client sees the error and can try again.
   try {
-    await sendMail(env, { to: inbox, replyTo: values.email, fromName: 'Newtn brief form', ...notify })
+    await sendMail(env, { template: 'notify', to: inbox, replyTo: values.email, fromName: 'Newtn brief form', fields, ...notify })
   } catch (err) {
     console.error('Brief notification failed:', err.message)
     return json(502, { error: 'send_failed' })
   }
 
   // The brief has reached Newton, so the visitor has succeeded even if their copy fails.
+  // (`copy` in the response says whether it went, for checking in the browser's network tab.)
+  let copy = 'sent'
   try {
-    await sendMail(env, { to: values.email, replyTo: inbox, fromName: site.person, ...reply })
+    await sendMail(env, { template: 'reply', to: values.email, replyTo: inbox, fromName: site.person, fields, ...reply })
   } catch (err) {
+    copy = 'failed'
     console.error('Brief confirmation failed:', err.message)
   }
 
-  return json(200, { ok: true })
+  return json(200, { ok: true, copy })
 }
 
 export const onRequest = () => json(405, { error: 'method_not_allowed' })

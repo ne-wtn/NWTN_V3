@@ -111,6 +111,14 @@ export const contact = {
     retry: 'Try again',
   },
 
+  // The next step, linked from the email the client gets after sending a brief.
+  intake: {
+    url: 'https://tally.so/r/WOKDVv',
+    title: 'One more step',
+    text: 'Fill in my project intake form: the length, platforms, assets and references for your film, so I can come back with an accurate proposal and timeline.',
+    label: 'Fill in the intake form',
+  },
+
   sent: {
     title: 'Thank You!',
     tagline: 'Your brief was sent successfully',
