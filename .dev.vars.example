@@ -3,7 +3,7 @@
 # On Cloudflare Pages, add the same names under Settings → Variables and secrets,
 # using "Encrypt" for the keys.
 
-# emailjs (send through your Gmail) | resend | log (print instead of sending)
+# resend (from hello@newtnfx.com) | emailjs (through your Gmail) | log (print instead of sending)
 MAIL_PROVIDER=log
 
 # Where brief notifications go. Defaults to the email in src/content/site.js.
@@ -20,6 +20,6 @@ EMAILJS_REPLY_TEMPLATE_ID=
 EMAILJS_PUBLIC_KEY=
 EMAILJS_PRIVATE_KEY=
 
-# Resend, only if MAIL_PROVIDER=resend
-# RESEND_API_KEY=
-# MAIL_FROM=hello@newtnfx.com
+# Resend (resend.com → API Keys), for MAIL_PROVIDER=resend
+RESEND_API_KEY=
+MAIL_FROM=hello@newtnfx.com

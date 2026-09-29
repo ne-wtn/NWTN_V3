@@ -7,7 +7,7 @@ export const legal = {
     sections: [
       { title: 'Information we collect', body: 'When you submit the contact form on this site, we collect your name, email address, and the message you provide. No other personal data is collected automatically.' },
       { title: 'How we use your information', body: 'The information you submit is used solely to respond to your inquiry. Your details are never sold, rented, or shared with third parties for marketing purposes.' },
-      { title: 'Third-party services', body: 'This site uses EmailJS to process contact form submissions. Your submitted data is transmitted through their service in order to deliver your message. Please refer to the EmailJS privacy policy for details on how they handle data.' },
+      { title: 'Third-party services', body: 'Briefs sent through the contact form are checked by Cloudflare Turnstile to keep out spam, then delivered by email through Resend. Your answers pass through these services only to deliver your brief. Please refer to the Cloudflare and Resend privacy policies for details on how they handle data.' },
       { title: 'Cookies', body: 'This site does not use tracking cookies or analytics. A minimal sessionStorage entry is used to keep your contact form draft and submission state on your device. This data never leaves your browser.' },
       { title: 'Data retention', body: 'Inquiry emails are retained only as long as necessary to manage client communication and are deleted when no longer needed.' },
       { title: 'Your rights', body: 'You may request deletion of any personal data you have submitted by contacting us directly at nfxmotion@gmail.com.' },

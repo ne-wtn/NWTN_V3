@@ -111,11 +111,18 @@ browser ──POST──▶ /api/brief (functions/api/brief.js, runs on Cloudfla
                         → client: "Got your brief, …", reply-to Newton
 ```
 
-`MAIL_PROVIDER` picks how emails go out: `emailjs` (through the Gmail account connected in EmailJS, so both come from nfxmotion@gmail.com), `resend` (from an address on your own domain), or `log` (prints them instead, for testing).
+`MAIL_PROVIDER` picks how emails go out: `resend` (from hello@newtnfx.com, the one in use), `emailjs` (through the Gmail account connected in EmailJS, so both come from nfxmotion@gmail.com; these tend to land in spam), or `log` (prints them instead, for testing).
 
 ### One-time setup
 
-**1. EmailJS** (emailjs.com)
+**1. Resend** (resend.com), so emails come from your own domain and stay out of spam
+- *Domains → Add domain*: `newtnfx.com`, region *Tokyo (ap-northeast-1)*, the nearest to Malaysia.
+- Resend lists DNS records (a TXT and an MX on `send.newtnfx.com`, and a DKIM TXT at `resend._domainkey`). Use its *Sign in with Cloudflare* button to add them automatically, or add each one in Cloudflare → newtnfx.com → *DNS → Records* exactly as shown. Then press *Verify*; it usually takes a few minutes.
+- In Cloudflare DNS also add a DMARC record, which Gmail looks for: type `TXT`, name `_dmarc`, content `v=DMARC1; p=none;`.
+- *API Keys → Create API key*: permission *Sending access*, domain `newtnfx.com`. Copy it straight away (it's shown once).
+- Replies go to nfxmotion@gmail.com, so hello@ doesn't need an inbox. To catch mail anyone writes to hello@newtnfx.com directly: Cloudflare → newtnfx.com → *Email → Email Routing*, turn it on, and add a rule sending `hello@newtnfx.com` to nfxmotion@gmail.com (confirm the email Cloudflare sends there). Its records sit on newtnfx.com itself, so they don't clash with Resend's on `send.newtnfx.com`.
+
+**EmailJS** (only if you switch `MAIL_PROVIDER` back to `emailjs`; emailjs.com)
 - *Email Services*: connect the Gmail account nfxmotion@gmail.com. Note the **Service ID**.
 - *Email Templates*: two templates, one per email (the designs themselves come from `emails/brief.js`). Set both up the same way:
 
@@ -144,16 +151,15 @@ browser ──POST──▶ /api/brief (functions/api/brief.js, runs on Cloudfla
 | Name | Value | Type |
 |---|---|---|
 | `VITE_TURNSTILE_SITE_KEY` | Turnstile site key | Plain text |
-| `MAIL_PROVIDER` | `emailjs` | Plain text |
+| `MAIL_PROVIDER` | `resend` | Plain text |
+| `MAIL_FROM` | `hello@newtnfx.com` | Plain text |
 | `NOTIFY_TO` | `nfxmotion@gmail.com` | Plain text |
 | `TURNSTILE_SECRET` | Turnstile secret key | Secret |
-| `EMAILJS_SERVICE_ID` | from step 1 | Secret |
-| `EMAILJS_NOTIFY_TEMPLATE_ID` | your copy's template, from step 1 | Secret |
-| `EMAILJS_REPLY_TEMPLATE_ID` | the client's template, from step 1 | Secret |
-| `EMAILJS_PUBLIC_KEY` | from step 1 | Secret |
-| `EMAILJS_PRIVATE_KEY` | from step 1 | Secret |
+| `RESEND_API_KEY` | from step 1 | Secret |
 
-Redeploy after adding them.
+Only for EmailJS: `EMAILJS_SERVICE_ID`, `EMAILJS_NOTIFY_TEMPLATE_ID`, `EMAILJS_REPLY_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_PRIVATE_KEY` (all Secret).
+
+Redeploy after adding them. Your copy arrives from "Newtn brief form <hello@newtnfx.com>", the client's from "Newton Diodory <hello@newtnfx.com>"; replying to either goes to the right person. Sent emails show up in Resend under *Emails*, with whether each was delivered.
 
 ### Testing locally
 
