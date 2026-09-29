@@ -214,7 +214,7 @@ export function replyEmail(values, { assets = `${site.domain}/media` } = {}) {
 
   const body = `
 <h1 class="h1" style="margin:0 0 14px;font:500 26px/1.15 ${F};letter-spacing:-0.7px;color:${C.ink};">Got it, ${esc(first)}.</h1>
-${text(`Your brief came through. I’ll go through it properly and get back to you within <strong style="color:${C.ink};font-weight:600;">${esc(replyTime)}</strong>, stg.`, 'margin-bottom:20px;')}
+${text(`Your brief came through. I’ll go through it properly and get back to you within <strong style="color:${C.ink};font-weight:600;">${esc(replyTime)}</strong>.`, 'margin-bottom:20px;')}
 ${intakePanel()}
 ${text('For your records, here’s a copy of what you sent. If anything’s missing or you’ve had a new idea since, just reply to this email.', 'margin-bottom:18px;')}
 ${briefCard(rows, contact.brief.title)}
