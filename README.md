@@ -25,6 +25,7 @@ Almost every change is one edit in `src/content/` or one file in `public/media/`
 | Privacy and Terms | `src/content/legal.js` |
 | Work page and 404 copy | `src/content/pages.js` |
 | Colours, fonts, sizes | `src/styles/tokens.css` |
+| The picture shown when the site is shared (1200 × 630) | `public/media/brand/og.png`, drawn by `tools/og/` from the home page's headline and 3D objects: with `npm run dev` running, open `/tools/og/?v=a` |
 
 ### Swapping media
 

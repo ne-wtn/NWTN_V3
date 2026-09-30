@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NWTN share image</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* The share image (public/media/brand/og.png), drawn at its real size: 1200 × 630.
+     Open /tools/og/?v=a, ?v=b or ?v=c on the dev server to see each version. */
+  html, body { margin: 0; background: #fff; }
+  #banner { position: relative; width: 1200px; height: 630px; overflow: hidden; font-family: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  #banner * { box-sizing: border-box; margin: 0; }
+  .abs { position: absolute; }
+  .lockup { display: flex; align-items: center; gap: 0.36em; font-weight: 600; letter-spacing: -0.035em; line-height: 1; }
+  .lockup svg { height: 1.08em; width: auto; }
+  .display { font-weight: 500; letter-spacing: -0.045em; line-height: 1; }
+  .lead { font-size: 24px; line-height: 1.4; letter-spacing: -0.01em; }
+  .url { font-size: 24px; font-weight: 500; letter-spacing: -0.01em; }
+
+  /* A: the home page's headline, with its 3D objects */
+  .headline { font-size: 96px; line-height: 0.98; letter-spacing: -0.048em; font-weight: 500;
+    background-image: linear-gradient(100deg, #FFFFFF 0%, #DCE8F4 10%, #8DB4DC 22%, #9EAAF4 34%, #C3A9F0 44%, #E7A6DA 50%, #C3A9F0 56%, #9EAAF4 66%, #8DB4DC 78%, #DCE8F4 90%, #FFFFFF 100%);
+    background-size: 200% 100%; background-position: 8% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  .inline-model { display: inline-block; position: relative; height: 0.82em; vertical-align: -0.05em; margin-inline: 0.03em; }
+  .inline-model canvas { position: absolute; top: -0.24em; left: -0.2em; width: calc(100% + 0.4em); height: calc(100% + 0.48em); }
+</style>
+</head>
+<body>
+<div id="banner"></div>
+<script type="module" src="./og.js"></script>
+</body>
+</html>
