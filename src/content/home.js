@@ -44,8 +44,8 @@ export const home = {
   },
 
   clients: {
-    lead: 'Films and edits for',
-    names: ['Grab', 'Google Gemini', 'Pinterest', 'Mercedes', 'BMW', 'Malaysia’s MRT', 'Midrar', 'Tina & Co'],
+    lead: 'Reach out if you're looking for',
+    names: ['Identity', 'Broadcast Motion Design', 'Product Launches', 'Promo', 'Explainers' , '3D Motion'],
   },
 
   // Coloured bands. tone: 'sky' | 'sand' | 'deep' | 'mist' | 'white'
