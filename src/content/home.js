@@ -44,7 +44,7 @@ export const home = {
   },
 
   clients: {
-    lead: 'Reach out if you're looking for',
+    lead: "Reach out if you're looking for",
     names: ['Identity', 'Broadcast Motion Design', 'Product Launches', 'Promo', 'Explainers' , '3D Motion'],
   },
 
